@@ -96,8 +96,9 @@ class _NeighborhoodAttentionNd(ABC, nn.Module):
     
     # Compute NA between "query" and "key" to get the raw attention scores, and add relative positional biases.
     # attention_scores = natten2dqkrpb(query_layer, key_layer, self.rpb, self.dilation)
-    attention_scores = self.nattendqkrpb(query_layer, key_layer, self.rpb, self.kernel_size, self.dilation)
-    
+    #attention_scores = self.nattendqkrpb(query_layer, key_layer, self.rpb, self.kernel_size, self.dilation)
+    attention_scores = self.nattendqkrpb(query_layer, key_layer, self.rpb, self.dilation)
+
     # Normalize the attention scores to probabilities.
     attention_probs = nn.functional.softmax(attention_scores, dim=-1)
     
@@ -106,7 +107,9 @@ class _NeighborhoodAttentionNd(ABC, nn.Module):
     attention_probs = self.dropout(attention_probs)
     
     # context_layer = natten2dav(attention_probs, value_layer, self.dilation)
-    context_layer = self.nattendav(attention_probs, value_layer, self.kernel_size, self.dilation)
+    #context_layer = self.nattendav(attention_probs, value_layer, self.kernel_size, self.dilation)
+    context_layer = self.nattendav(attention_probs, value_layer, self.dilation)
+
     if len(context_layer.shape) > 4:  # 2D
       context_layer = context_layer.permute(0, 2, 3, 1, 4).contiguous()
     else:  # 1D
