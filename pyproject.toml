@@ -32,6 +32,8 @@ dependencies = [
   "omegaconf",
   "huggingface_hub",
   "matplotlib",
+  "Cython",
+  "madmom",
 ]
 
 [project.optional-dependencies]
